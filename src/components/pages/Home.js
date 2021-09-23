@@ -10,19 +10,19 @@ import { NavBar } from "../NavBar";
 
 export const Home = () => {
 
-    const sendBulkMessage =()=>{
-        axios.post('https://app.apiproxy.co/account/v1/grant_access', {
-            userName: 'robin',
-            password: 'test',
-            apigw:'API_GW'
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-    }
+    // const sendBulkMessage =()=>{
+    //     axios.post('https://app.apiproxy.co/account/v1/grant_access', {
+    //         userName: 'robin',
+    //         password: 'test',
+    //         apigw:'API_GW'
+    //       })
+    //       .then(function (response) {
+    //         console.log(response);
+    //       })
+    // }
     
     useEffect(() => {
-         sendBulkMessage()
+        //  sendBulkMessage()
     }, [])
     return (
         <div>
