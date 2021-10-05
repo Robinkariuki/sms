@@ -4,11 +4,14 @@ import React, {
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from 'xlsx';
+import {ExcelRenderer} from 'react-excel-renderer';
 
 
 
 const FileUpload = ({
-    setRecepients
+    setRecepients,
+    setCol,
+    setRow
   }) => {
 
     const [selectedFile, setSelectedFile] = useState([])
@@ -16,6 +19,21 @@ const FileUpload = ({
     const onFileChange = event => {
 
       // Update the state
+      let fileObj = event.target.files[0];
+      ExcelRenderer(fileObj, (err, resp) => {
+        if(err){
+          console.log(err);            
+        }
+        else{
+          console.log(resp.rows)
+          setCol(resp.cols)
+          let arr = []
+          arr = resp.rows.splice(0,5)
+
+          setRow(arr)
+        }
+      });   
+      
       console.log(setRecepients)
       var files = event.target.files,
         f = files[0];
@@ -45,6 +63,13 @@ const FileUpload = ({
 
     const onFileUpload = (e) => {
       e.preventDefault();
+
+      //show excel table
+    
+
+
+
+
       const numbers = []
       // Details of the uploaded file
       selectedFile.map(num => {
@@ -68,7 +93,7 @@ const FileUpload = ({
         <div>
     <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Upload contacts</Form.Label>
-    <Form.Control type="file" onChange={onFileChange} required/>
+    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}} required/>
     {/* {(selectedFile) ? <Alert variant="success">{selectedFile.selectedFile.name}</Alert>:<Alert variant="success">*Choose file*</Alert> } */}
     <br></br>
     <Button variant="primary" type="upload" onClick={onFileUpload}>

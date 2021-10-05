@@ -6,31 +6,24 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import axios from 'axios';
-
 import FileUpload from './services/FileUpload';
+import {OutTable} from 'react-excel-renderer';
+
+
 
 
 export const Forms = () => {
 
-    const [shortCode, setShortCode] = useState('')
+
     const [recipients, setRecepients] = useState('')
     const [message, setMessage] = useState('')
     const [count,setCount] = useState(0)
-
-
+    const [col,setCol] = useState([])
+    const [row,setRow] = useState([])
 
     
-    const handleChangeShort = e => {
-      setShortCode(e.target.value);
 
-
-    };
-    const handleChangeRecp = e => {
-      setRecepients(e.target.value);
-
-
-    };
-
+    const charactersLeft = 160-count
     const handleChangeMes = e => {
       setMessage(e.target.value);
       setCount(e.target.value.length);
@@ -44,12 +37,12 @@ export const Forms = () => {
       e.preventDefault();
 
 
-      console.log(recipients)
-      console.log(shortCode)
+
+     
 
 
       const formData = {
-        shortCode,
+        shortCode:"Naivas",
         recipients,
         message
 
@@ -64,34 +57,44 @@ export const Forms = () => {
             "X-Requested-With": "XMLHttpRequest",
           },
         })
-        .catch(err => console.log(err.response))
+        .then(resp=>{
+          console.log('new :',resp)
+          alert(resp.data.statusDescription)
+          setCol([])
+          setRow([])
+          setMessage('')
+          setRecepients('')
+          setCount(0)
+
+        })
+        .catch(err =>{
+          console.log(err.response)
+          alert(err.response.data.data.message)
+
+        })
+        
 
 
     };
-    console.log(recipients)
+
+    
     return (
-        <Container className='mt-3'>
+        <Container className='mt-5'>
         <Form onSubmit={SubmitForm}>
-  <Form.Group className="mb-3" controlId="formBasicEmail">
-    <Form.Label>shortCode</Form.Label>
-    <Form.Control type="text" placeholder="shortCode" value={shortCode}  onChange={handleChangeShort} required/>
-    <Form.Text className="text-muted">
 
-    </Form.Text>
-  </Form.Group>
 
-  <Form.Group className="mb-3" controlId="formBasicPassword">
-    <Form.Label>recipients</Form.Label>
-    <Form.Control type="text" placeholder="recipients" value={recipients}   onChange={handleChangeRecp} required />
-  </Form.Group>
+ 
 
-  <FileUpload setRecepients={setRecepients}/>
+  <FileUpload setRecepients={setRecepients} setCol={setCol} setRow={setRow}/>
+  <OutTable data={row} columns={col} tableClassName="table" tableHeaderRowClass="tr" />
+  
 
-  <FloatingLabel controlId="floatingTextarea2" label="Comments">
+  <FloatingLabel controlId="floatingTextarea2" label="message">
  
     <Form.Control
     
       as="textarea"
+      maxLength='160'
       placeholder="Leave a comment here"
       style={{ height: '100px' }}
       value={message}
@@ -99,7 +102,7 @@ export const Forms = () => {
       required
     />
   </FloatingLabel>
-  <p>{count}</p>
+  <p>{count}/{charactersLeft}</p>
   <br></br>
   <Button variant="primary" type="submit" >
     Submit
