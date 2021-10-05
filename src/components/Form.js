@@ -8,6 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import axios from 'axios';
 import FileUpload from './services/FileUpload';
 import {OutTable} from 'react-excel-renderer';
+import Card from 'react-bootstrap/Card';
 
 
 
@@ -24,6 +25,7 @@ export const Forms = () => {
     
 
     const charactersLeft = 160-count
+    let contactCount = recipients.split(',');
     const handleChangeMes = e => {
       setMessage(e.target.value);
       setCount(e.target.value.length);
@@ -77,10 +79,28 @@ export const Forms = () => {
 
     };
 
-    
+ 
     return (
         <Container className='mt-5'>
-        <Form onSubmit={SubmitForm}>
+
+<Card
+    style={{ width: '18rem' }}
+    className="mb-2"
+  >
+    <Card.Header>Contact Count</Card.Header>
+    <Card.Body>
+      {(recipients === "")?<Card.Title>0</Card.Title>
+
+      :<Card.Title>{contactCount.length}</Card.Title>
+
+    }
+      
+      <Card.Text>
+           
+      </Card.Text>
+    </Card.Body>
+  </Card>
+        <Form onSubmit={SubmitForm} className='mt-5'>
 
 
  
