@@ -1,8 +1,5 @@
-import React, {
-  useState
-} from 'react'
+import React from 'react'
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import * as XLSX from 'xlsx';
 import {ExcelRenderer} from 'react-excel-renderer';
 
@@ -14,7 +11,7 @@ const FileUpload = ({
     setRow
   }) => {
 
-    const [selectedFile, setSelectedFile] = useState([])
+    // const [selectedFile, setSelectedFile] = useState([])
 
     const onFileChange = event => {
 
@@ -25,12 +22,11 @@ const FileUpload = ({
           console.log(err);            
         }
         else{
-          console.log(resp.rows)
           setCol(resp.cols)
-          let arr = []
-          arr = resp.rows.splice(0,5)
+          // let arr = []
+          // arr = resp.rows.splice(0,5)
 
-          setRow(arr)
+          setRow(resp.rows)
         }
       });   
       
@@ -56,50 +52,37 @@ const FileUpload = ({
         const dataParse = XLSX.utils.sheet_to_json(ws, {
           header: 1
         });
-        setSelectedFile(dataParse)
+        // setSelectedFile(dataParse)
+        const numbers = []
+        // Details of the uploaded file
+        dataParse.map(num => {
+          if (typeof num[1] === 'number') {
+            numbers.push(num[1])
+  
+          }
+          const Newnum = numbers.join(",").toString()
+          // console.log('each array ==>', Newnum)
+          return setRecepients(Newnum)
+        })
+  
       };
       reader.readAsArrayBuffer(f);
+
+
+
+  
     };
 
-    const onFileUpload = (e) => {
-      e.preventDefault();
-
-      //show excel table
-    
-
-
-
-
-      const numbers = []
-      // Details of the uploaded file
-      selectedFile.map(num => {
-        if (typeof num[1] === 'number') {
-          numbers.push(num[1])
-
-        }
-        const Newnum = numbers.join(",").toString()
-        // console.log('each array ==>', Newnum)
-        return setRecepients(Newnum)
-      })
-
-
-
-
-
-    };
+   
   
  
     return (
         <div>
     <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Upload contacts</Form.Label>
-    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}} required/>
+    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  required/>
     {/* {(selectedFile) ? <Alert variant="success">{selectedFile.selectedFile.name}</Alert>:<Alert variant="success">*Choose file*</Alert> } */}
     <br></br>
-    <Button variant="primary" type="upload" onClick={onFileUpload}>
-    upload
-  </Button>
-    
   </Form.Group>
         </div>
     )

@@ -7,8 +7,8 @@ import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import axios from 'axios';
 import FileUpload from './services/FileUpload';
-import {OutTable} from 'react-excel-renderer';
 import Card from 'react-bootstrap/Card';
+import FormTable from "./services/table";
 
 
 
@@ -21,17 +21,26 @@ export const Forms = () => {
     const [count,setCount] = useState(0)
     const [col,setCol] = useState([])
     const [row,setRow] = useState([])
+    const [description,setDescription] = useState('')
 
     
 
     const charactersLeft = 160-count
     let contactCount = recipients.split(',');
     const handleChangeMes = e => {
+      e.preventDefault();
       setMessage(e.target.value);
       setCount(e.target.value.length);
 
 
     };
+    const handleChangeDes = e =>{
+      e.preventDefault();
+      setDescription(e.target.value);
+
+    }
+
+
 
 
 
@@ -60,17 +69,17 @@ export const Forms = () => {
           },
         })
         .then(resp=>{
-          console.log('new :',resp)
           alert(resp.data.statusDescription)
           setCol([])
           setRow([])
           setMessage('')
           setRecepients('')
           setCount(0)
+          setDescription('')
 
         })
         .catch(err =>{
-          console.log(err.response)
+          // console.log(err.response)
           alert(err.response.data.data.message)
 
         })
@@ -78,7 +87,7 @@ export const Forms = () => {
 
 
     };
-
+  
  
     return (
         <Container className='mt-5'>
@@ -106,9 +115,13 @@ export const Forms = () => {
  
 
   <FileUpload setRecepients={setRecepients} setCol={setCol} setRow={setRow}/>
-  <OutTable data={row} columns={col} tableClassName="table" tableHeaderRowClass="tr" />
+
+  <FormTable columns={col} rows={row}/>
   
 
+  <Form.Label>Description</Form.Label>
+  <Form.Control type="text" placeholder="Description" onChange={handleChangeDes} value={description} required/>
+  <br />
   <FloatingLabel controlId="floatingTextarea2" label="message">
  
     <Form.Control
