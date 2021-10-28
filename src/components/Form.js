@@ -46,8 +46,10 @@ export const Forms = () => {
 
     const SubmitForm = e => {
       e.preventDefault();
-
-
+    
+      
+      
+      
 
      
 
@@ -58,6 +60,11 @@ export const Forms = () => {
         message
 
       }
+
+
+
+
+
       axios({
           method: "post",
           url: "/sms/v1/bulk/api_submit",
@@ -76,6 +83,38 @@ export const Forms = () => {
           setRecepients('')
           setCount(0)
           setDescription('')
+
+
+
+
+          const dataFromForm ={
+            recipients,
+            message,
+            description,
+    
+          }
+      
+          const data = JSON.stringify(dataFromForm)
+          axios({
+            method:"post",
+            url:'http://localhost:3001/api/log',
+            data,
+            headers: {
+              "Content-Type": "application/json"
+            
+            },
+    
+          })
+          .then(res=>{
+            alert(res.data)
+            console.log(res)
+          })
+          .catch(err =>{
+            
+            alert(err)
+            console.log(err)
+    
+          })
 
         })
         .catch(err =>{

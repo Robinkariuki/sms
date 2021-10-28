@@ -4,8 +4,8 @@ import Table from 'react-bootstrap/Table';
 import './table.css'
 const FormTable = ({rows,columns}) => {
 
-    console.table("rows==>",rows)
-    console.table("columns==>",columns)
+    // console.table("rows==>",rows)
+    // console.table("columns==>",columns)
   
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 5;
@@ -20,6 +20,10 @@ const FormTable = ({rows,columns}) => {
 
 
     return (
+        <div className="App">
+
+
+        
         <Table>
         <thead>
          <tr>
@@ -37,7 +41,12 @@ const FormTable = ({rows,columns}) => {
         
 
   
-       <br></br>
+       
+   
+        </Table>
+        <br></br>
+    
+
       <ReactPaginate
         previousLabel={"← Previous"}
         nextLabel={"Next →"}
@@ -49,8 +58,7 @@ const FormTable = ({rows,columns}) => {
         disabledClassName={"pagination__link--disabled"}
         activeClassName={"pagination__link--active"}
       />
-
-        </Table>
+        </div>
         
     )
 }
