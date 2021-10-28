@@ -30,7 +30,7 @@ const FileUpload = ({
         }
       });   
       
-      console.log(setRecepients)
+   
       var files = event.target.files,
         f = files[0];
       var reader = new FileReader();
@@ -81,7 +81,7 @@ const FileUpload = ({
     <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Upload contacts</Form.Label>
     <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  required/>
-    {/* {(selectedFile) ? <Alert variant="success">{selectedFile.selectedFile.name}</Alert>:<Alert variant="success">*Choose file*</Alert> } */}
+    
     <br></br>
   </Form.Group>
         </div>
