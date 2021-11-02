@@ -2,6 +2,7 @@ import React from 'react'
 import Form from 'react-bootstrap/Form';
 import * as XLSX from 'xlsx';
 import {ExcelRenderer} from 'react-excel-renderer';
+import ReactDOM from 'react-dom';
 
 
 
@@ -68,7 +69,7 @@ const FileUpload = ({
       };
       reader.readAsArrayBuffer(f);
 
-
+    
 
   
     };
@@ -80,7 +81,7 @@ const FileUpload = ({
         <div>
     <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Upload contacts</Form.Label>
-    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  required/>
+    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  onClick={e => (e.target.value = null)} required/>
     
     <br></br>
   </Form.Group>
