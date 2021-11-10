@@ -2,10 +2,9 @@ import React,{useState} from 'react'
 import ReactPaginate from 'react-paginate';
 import Table from 'react-bootstrap/Table';
 import './table.css'
-const FormTable = ({rows,columns}) => {
+const FormTable = ({rows,columns,dbstatus}) => {
 
-    // console.table("rows==>",rows)
-    // console.table("columns==>",columns)
+
   
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 5;
@@ -17,8 +16,10 @@ const FormTable = ({rows,columns}) => {
     function handlePageClick({ selected: selectedPage }) {
         setCurrentPage(selectedPage);
     }
+   
 
 
+   if(dbstatus===false){
     return (
         <div className="App">
 
@@ -27,15 +28,15 @@ const FormTable = ({rows,columns}) => {
         <Table>
         <thead>
          <tr>
-             {columns.map((c)=>
-             <th key={c.key}>{c.key === -1 ? "" : c.name}</th>
+             {columns.map((c,i)=>
+             <th key={i}>{c.key === -1 ? "" : c.name}</th>
              )}
          </tr>
          {rows
          .slice(offset, offset + PER_PAGE)
          .map((r,i)=><tr key={i}>
              {!rows.withoutRowNum && <td key={i}>{rows.renderRowNum?rows.renderRowNum(r,i):i}</td>}
-             {columns.map(c=> <td key={c.key}>{ r[c.key] }</td>)}
+             {columns.map((c,i)=> <td key={i}>{ r[c.key] }</td>)}
          </tr>)}
         </thead>
         
@@ -61,6 +62,55 @@ const FormTable = ({rows,columns}) => {
         </div>
         
     )
+
+   }else{
+       return(
+        <div className="App">
+
+
+        
+        <Table>
+        <thead>
+         <tr>
+             {columns.map((c,i)=>
+             <th key={i}>{c.key === -1 ? "" : c}</th>
+             )}
+         </tr>
+         {rows
+         .slice(offset, offset + PER_PAGE)
+         .map((r,i)=><tr key={i}>
+       
+         {columns.map((c,t)=>{
+             return <td key={t}>{ r[t] }</td>
+         })}
+  
+         </tr>)}
+        </thead>
+        
+
+  
+       
+   
+        </Table>
+        <br></br>
+    
+
+      <ReactPaginate
+        previousLabel={"← Previous"}
+        nextLabel={"Next →"}
+        pageCount={pageCount}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        previousLinkClassName={"pagination__link"}
+        nextLinkClassName={"pagination__link"}
+        disabledClassName={"pagination__link--disabled"}
+        activeClassName={"pagination__link--active"}
+      />
+        </div>
+        
+       )
+   }
+   
 }
 
 export default FormTable

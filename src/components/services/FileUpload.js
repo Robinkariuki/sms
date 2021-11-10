@@ -2,18 +2,25 @@ import React from 'react'
 import Form from 'react-bootstrap/Form';
 import * as XLSX from 'xlsx';
 import {ExcelRenderer} from 'react-excel-renderer';
-import ReactDOM from 'react-dom';
+
 
 
 
 const FileUpload = ({
     setRecepients,
     setCol,
-    setRow
+    setRow,
+    setStatus
   }) => {
 
     // const [selectedFile, setSelectedFile] = useState([])
+    const OnclickHandler =(e)=>{
 
+
+      e.target.value = null
+      setStatus(false)
+      
+    }
     const onFileChange = event => {
 
       // Update the state
@@ -62,7 +69,7 @@ const FileUpload = ({
   
           }
           const Newnum = numbers.join(",").toString()
-          // console.log('each array ==>', Newnum)
+         
           return setRecepients(Newnum)
         })
   
@@ -81,7 +88,7 @@ const FileUpload = ({
         <div>
     <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Upload contacts</Form.Label>
-    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  onClick={e => (e.target.value = null)} required/>
+    <Form.Control type="file" onChange={onFileChange} style={{"padding":"10px"}}  onClick={OnclickHandler} />
     
     <br></br>
   </Form.Group>
