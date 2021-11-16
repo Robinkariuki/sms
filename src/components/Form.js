@@ -35,7 +35,7 @@ export const Forms = () => {
 
 
    const getBranch = async()=>{
-     const url = 'http://localhost:3001/api/getBranches'
+     const url = 'http://localhost:3001/naivas/api/getBranches'
      await axios.get(url)
      .then(res => {
       setBranch(res.data.recordsets[0])
@@ -70,7 +70,7 @@ export const Forms = () => {
 
   const getContacts =(branch_id)=>{
      
-     const url ="http://localhost:3001/api/getContacts"
+     const url ="http://localhost:3001/naivas/api/getContacts"
        axios({
        method:'post',
        url,
@@ -112,13 +112,13 @@ export const Forms = () => {
       }
      axios({
        method:'post',
-       url:"http://localhost:3001/api/smsbulk",
+       url:"http://localhost:3001/naivas/api/smsbulk",
        data: formData,
      })
      .then(resp=>{
        console.log(resp)
-
-      alert(resp.data)
+       
+      alert("successfully sent")
       setCol([])
       setRow([])
       setMessage('')
@@ -126,40 +126,46 @@ export const Forms = () => {
       setCount(0)
       setDescription('')
 
+ if (resp.data.name === "Error"){
+   alert(resp.data.name)
+ }else{
+   
+  const dataFromForm ={
+    recipients,
+    message,
+    description,
 
-      const dataFromForm ={
-        recipients,
-        message,
-        description,
+  }
 
-      }
+  const data = JSON.stringify(dataFromForm)
+  axios({
+    method:"post",
+    url:'http://localhost:3001/naivas/api/log',
+    data,
+    headers: {
+      "Content-Type": "application/json"
+    
+    },
+
+  })
+  .then(res=>{
+    
+    alert(res.data)
+ 
+  })
+  .catch(err =>{
+    
+    alert(err)
   
-      const data = JSON.stringify(dataFromForm)
-      axios({
-        method:"post",
-        url:'http://localhost:3001/api/log',
-        data,
-        headers: {
-          "Content-Type": "application/json"
-        
-        },
 
-      })
-      .then(res=>{
-        alert(res.data)
+  })
+ }
      
-      })
-      .catch(err =>{
-        
-        alert(err)
-      
-
-      })
 
     })
     .catch(err =>{
-   
-      alert(err.response.data.data.message)
+      console.log("shida===>",err)
+      alert(err)
 
     
      })

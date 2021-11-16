@@ -8,7 +8,7 @@ const DbUpload =  ({branch,getContacts,setStatus,recipientsDB,setCol,setRow,setR
 
     
   const handleSelect=(e)=>{
-    console.log(e);
+
   
     const branch_id = e
   

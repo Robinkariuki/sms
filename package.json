@@ -18,7 +18,7 @@
     "web-vitals": "^1.1.2",
     "xlsx": "^0.17.2"
   },
-  "proxy": "https://app.apiproxy.co",
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
