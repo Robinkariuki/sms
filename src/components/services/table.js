@@ -1,18 +1,24 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import ReactPaginate from 'react-paginate';
 import Table from 'react-bootstrap/Table';
 import './table.css'
-const FormTable = ({rows,columns,dbstatus}) => {
+import {AppContext} from "../services/context"
 
+const FormTable = () => {
 
-  
+  const {status,colum,Row} = useContext(AppContext);
+   
+  const [row] = Row
+  const [col] = colum
+  const [dbstatus] = status
+
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 5;
     const offset = currentPage * PER_PAGE;
 
  
     
-    const pageCount = Math.ceil(rows.length/PER_PAGE)
+    const pageCount = Math.ceil(row.length/PER_PAGE)
     function handlePageClick({ selected: selectedPage }) {
         setCurrentPage(selectedPage);
     }
@@ -28,15 +34,15 @@ const FormTable = ({rows,columns,dbstatus}) => {
         <Table>
         <thead>
          <tr>
-             {columns.map((c,i)=>
+             {col.map((c,i)=>
              <th key={i}>{c.key === -1 ? "" : c.name}</th>
              )}
          </tr>
-         {rows
+         {row
          .slice(offset, offset + PER_PAGE)
          .map((r,i)=><tr key={i}>
-             {!rows.withoutRowNum && <td key={i}>{rows.renderRowNum?rows.renderRowNum(r,i):i}</td>}
-             {columns.map((c,i)=> <td key={i}>{ r[c.key] }</td>)}
+             {!row.withoutRowNum && <td key={i}>{row.renderRowNum?row.renderRowNum(r,i):i}</td>}
+             {col.map((c,i)=> <td key={i}>{ r[c.key] }</td>)}
          </tr>)}
         </thead>
         
@@ -72,15 +78,15 @@ const FormTable = ({rows,columns,dbstatus}) => {
         <Table>
         <thead>
          <tr>
-             {columns.map((c,i)=>
+             {col.map((c,i)=>
              <th key={i}>{c.key === -1 ? "" : c}</th>
              )}
          </tr>
-         {rows
+         {row
          .slice(offset, offset + PER_PAGE)
          .map((r,i)=><tr key={i}>
        
-         {columns.map((c,t)=>{
+         {col.map((c,t)=>{
              return <td key={t}>{ r[t] }</td>
          })}
   

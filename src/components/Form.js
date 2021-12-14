@@ -1,6 +1,7 @@
 import React, {
   useState,
-  useEffect
+  useEffect,
+  useContext
 } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +12,8 @@ import FileUpload from './services/FileUpload';
 import Card from 'react-bootstrap/Card';
 import FormTable from "./services/table";
 import DbUpload from "./services/dbUpload";
+import {AppContext} from "../components/services/context"
+
 
 
 
@@ -19,19 +22,18 @@ import DbUpload from "./services/dbUpload";
 export const Forms = () => {
 
 
-    const [recipients, setRecepients] = useState('')
-    const [message, setMessage] = useState('')
-    const [count,setCount] = useState(0)
-    const [col,setCol] = useState([])
-    const [row,setRow] = useState([])
-    const [description,setDescription] = useState('')
-    const [recipientsDB, setRecepientsDB] = useState('')
-    const [dbstatus,setStatus] = useState()
-  
-    
-    
-    const [branch,setBranch] = useState([])
 
+    const {Branch,recipient,recDb,colum,Row,desc,mess,counter} = useContext(AppContext);
+    const [branch,setBranch] = Branch
+    const [recipients,setRecepients] = recipient
+    const [recipientsDB, setRecepientsDB] =recDb
+    const [col,setCol] = colum
+    const [row,setRow] = Row
+    const [description,setDescription] = desc
+    const [message, setMessage] = mess
+    const [count,setCount] = counter 
+   
+  
 
 
    const getBranch = async()=>{
@@ -39,6 +41,7 @@ export const Forms = () => {
      await axios.get(url)
      .then(res => {
       setBranch(res.data.recordsets[0])
+    
      })
      
      
@@ -49,6 +52,7 @@ export const Forms = () => {
     
     
     }, [])
+  
 
 
     const charactersLeft = 160-count
@@ -79,7 +83,7 @@ export const Forms = () => {
      }).then(res=>{
       setRecepientsDB(res.data.recordset)
       
-      const data = []
+     const data = []
      const contacts = []
       res.data.recordset.map(obj=>{
         contacts.push( obj.Contact)
@@ -199,11 +203,8 @@ export const Forms = () => {
 
  
 
-  <FileUpload setRecepients={setRecepients} setCol={setCol} setRow={setRow} setStatus={setStatus}/>
-
-  <DbUpload branch={branch} getContacts={getContacts} setStatus={setStatus} setCol={setCol} setRow={setRow} recipientsDB={recipientsDB} setRecepients={setRecepients}/>
-
-  <FormTable columns={col} rows={row} dbstatus={dbstatus}/>
+  <FileUpload/>
+  <FormTable/>
   
 
   <Form.Label>Description</Form.Label>

@@ -1,17 +1,20 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import Form from 'react-bootstrap/Form';
 import * as XLSX from 'xlsx';
 import {ExcelRenderer} from 'react-excel-renderer';
+import {AppContext} from "../services/context"
 
 
 
 
-const FileUpload = ({
-    setRecepients,
-    setCol,
-    setRow,
-    setStatus
-  }) => {
+const FileUpload = () => {
+
+    const {status,colum,Row,recipient} = useContext(AppContext);
+    const [dbstatus,setStatus] = status
+    const [col,setCol] = colum
+    const [recipients,setRecepients] = recipient
+    const [row,setRow] = Row
+
 
     // const [selectedFile, setSelectedFile] = useState([])
     const OnclickHandler =(e)=>{
