@@ -24,13 +24,11 @@ export const Home = () => {
 
     return (
         <div>
-
-<NavBar/>
  <Tabs defaultActiveKey="Execel Upload" id="uncontrolled-tab-example" className="mb-3">
   <Tab eventKey="Execel Upload" title="Execel Upload">
   <Forms/> 
   </Tab>
-  <Tab eventKey="dbupload" title="Data Base Upload">
+  <Tab eventKey="dbupload" title="DataBase Upload">
    <DbUpload/>
   </Tab>
 </Tabs>

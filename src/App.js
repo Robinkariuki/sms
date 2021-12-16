@@ -1,22 +1,30 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React,{useContext} from 'react'
 import { Home } from './components/pages/Home';
-import { Login } from '@microsoft/mgt-react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {AppProvider} from "./components/services/context"
+import  Login  from '../src/components/pages/Login';
+import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
-
+import {NavBar} from "../src/components/NavBar";
+import {AppContext} from "../src/components/services/context";
 
 function App() {
+  const {authrization} = useContext(AppContext);
+  const [auth] = authrization
   return (
-<AppProvider>
+
+ 
 <Router>
+<NavBar/>
 <Routes>
-<Route exact path="/"element={<Home />}/>
+
+  <Route exact path="/" element={  auth ? <Home/> : <Navigate to='/login'/>}/> 
+
+
 <Route path="/login"  element={<Login />}/>
 </Routes>
 </Router>
-</AppProvider>
+
   )
 }
 

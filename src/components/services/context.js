@@ -16,6 +16,9 @@ export const AppProvider = (props) => {
     const [dbstatus,setStatus] = useState()
     const [message, setMessage] = useState('')
     const [count,setCount] = useState(0)
+    const [userName,setUser]  = useState('')
+    const [password,setPassword] = useState()
+    const [auth,setAuth] = useState(false)
     
     
   
@@ -68,7 +71,7 @@ export const AppProvider = (props) => {
 return(
 
    <Provider value=
-   {{Branch:[branch, setBranch],colum:[col,setCol],Row:[row,setRow],status:[dbstatus,setStatus],recipient:[recipients, setRecepients],recDb:[recipientsDB, setRecepientsDB],Contacts:[getContacts],desc:[description,setDescription],mess:[message, setMessage],counter:[count,setCount]}}>
+   {{Branch:[branch, setBranch],colum:[col,setCol],Row:[row,setRow],status:[dbstatus,setStatus],recipient:[recipients, setRecepients],recDb:[recipientsDB, setRecepientsDB],Contacts:[getContacts],desc:[description,setDescription],mess:[message, setMessage],counter:[count,setCount],pass:[password,setPassword],user:[userName,setUser],authrization:[auth,setAuth]}}>
 
       {props.children}
 

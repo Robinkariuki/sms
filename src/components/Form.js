@@ -120,7 +120,7 @@ export const Forms = () => {
        data: formData,
      })
      .then(resp=>{
-       console.log(resp)
+    
        
       alert("successfully sent")
       setCol([])

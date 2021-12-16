@@ -3,17 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Providers } from '@microsoft/mgt-element';
-import { Msal2Provider } from '@microsoft/mgt-msal2-provider';
 
+import {AppProvider} from "../src/components/services/context"
 
-Providers.globalProvider = new Msal2Provider({
-  clientId: '91e44e26-6cd3-4517-9eb8-ad9e474649d5'
-});
 
 ReactDOM.render(
   <React.StrictMode>
+    <AppProvider>
     <App />
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
