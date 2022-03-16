@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useEffect,
   useContext
 } from 'react';
@@ -11,7 +10,7 @@ import axios from 'axios';
 import FileUpload from './services/FileUpload';
 import Card from 'react-bootstrap/Card';
 import FormTable from "./services/table";
-import DbUpload from "./services/dbUpload";
+
 import {AppContext} from "../components/services/context"
 
 
@@ -37,7 +36,7 @@ export const Forms = () => {
 
 
    const getBranch = async()=>{
-     const url = 'http://localhost:3001/naivas/api/getBranches'
+     const url = 'http://192.168.100.51:3008/naivas/api/getBranches'
      await axios.get(url)
      .then(res => {
       setBranch(res.data.recordsets[0])
@@ -74,7 +73,7 @@ export const Forms = () => {
 
   const getContacts =(branch_id)=>{
      
-     const url ="http://localhost:3001/naivas/api/getContacts"
+     const url ="http://192.168.100.51:3008/naivas/api/getContacts"
        axios({
        method:'post',
        url,
@@ -116,7 +115,7 @@ export const Forms = () => {
       }
      axios({
        method:'post',
-       url:"http://localhost:3001/naivas/api/smsbulk",
+       url:"http://192.168.100.51:3008/naivas/api/smsbulk",
        data: formData,
      })
      .then(resp=>{
@@ -144,7 +143,7 @@ export const Forms = () => {
   const data = JSON.stringify(dataFromForm)
   axios({
     method:"post",
-    url:'http://localhost:3001/naivas/api/log',
+    url:'http://192.168.100.51:3008/naivas/api/log',
     data,
     headers: {
       "Content-Type": "application/json"
@@ -154,7 +153,7 @@ export const Forms = () => {
   })
   .then(res=>{
     
-    alert(res.data)
+    console.log(res.data)
  
   })
   .catch(err =>{

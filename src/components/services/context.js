@@ -39,7 +39,7 @@ export const AppProvider = (props) => {
     const getContacts =(branch_id)=>{
         
      
-        const url ="http://localhost:3001/naivas/api/getContacts"
+        const url ="http://192.168.100.51:3008/naivas/api/getContacts"
           axios({
           method:'post',
           url,
@@ -48,10 +48,10 @@ export const AppProvider = (props) => {
         }).then(res=>{
          setRecepientsDB(res.data.recordset)
          
-         const data = []
+        const data = []
         const contacts = []
          res.data.recordset.map(obj=>{
-           contacts.push( obj.Contact)
+           contacts.push( obj.REALNUMBER)
            setRecepients(contacts.toString())
    
            data.push(Object.values(obj))
@@ -68,10 +68,42 @@ export const AppProvider = (props) => {
    
      }
 
+
+     const getAllContacts =()=>{
+        
+     
+      const url ="http://192.168.100.51:3008/naivas/api/getAllContacts"
+    
+        axios({
+        method:'get',
+        url
+      }).then(res=>{
+       setRecepientsDB(res.data.recordset)
+       
+      const data = []
+      const contacts = []
+       res.data.recordset.map(obj=>{
+         contacts.push(obj.REALNUMBER)
+         setRecepients(contacts.toString())
+ 
+         data.push(Object.values(obj))
+         setRecepientsDB(data)
+         setRow(data)
+         return setCol(Object.keys(obj))
+         
+        
+ 
+       })
+       
+      })
+     
+ 
+   }
+
 return(
 
    <Provider value=
-   {{Branch:[branch, setBranch],colum:[col,setCol],Row:[row,setRow],status:[dbstatus,setStatus],recipient:[recipients, setRecepients],recDb:[recipientsDB, setRecepientsDB],Contacts:[getContacts],desc:[description,setDescription],mess:[message, setMessage],counter:[count,setCount],pass:[password,setPassword],user:[userName,setUser],authrization:[auth,setAuth]}}>
+   {{Branch:[branch, setBranch],colum:[col,setCol],Row:[row,setRow],status:[dbstatus,setStatus],recipient:[recipients, setRecepients],recDb:[recipientsDB, setRecepientsDB],Contacts:[getContacts,getAllContacts],desc:[description,setDescription],mess:[message, setMessage],counter:[count,setCount],pass:[password,setPassword],user:[userName,setUser],authrization:[auth,setAuth]}}>
 
       {props.children}
 

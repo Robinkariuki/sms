@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState,useRef} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {AppContext} from "../services/context"
@@ -20,22 +20,30 @@ const DbUpload =  () => {
   const [dbstatus,setStatus] = status
   const [col,setCol] = colum
   const [row,setRow] = Row
-  const [getContacts] = Contacts
+  const [getContacts,getAllContacts] = Contacts
   const [description,setDescription] = desc
   const [message, setMessage] = mess
   const [count,setCount] = counter 
+const [label,setLabel] = useState('Select Branch')
+ 
+  const checkboxRef = useRef(null);
 
   const HandleSelect=(e)=>{
 
    
-   
-    const branch_id = e
-  
+    const values = e.split(',')
+    const branch_id = values[0]
     getContacts(branch_id)
+    setLabel(values[1])
    
 
     
   }
+
+
+  
+
+
 
       
   const HandleClick=(e)=>{
@@ -48,6 +56,7 @@ const DbUpload =  () => {
     setCol([])
     setRow([])
    
+   
     
   }
   const handleChangeDes = e =>{
@@ -55,6 +64,29 @@ const DbUpload =  () => {
     setDescription(e.target.value);
 
   }
+
+  const HandleChangeCheck = e =>{
+    setLabel("Select Branch")
+      if (checkboxRef.current.checked){
+        getAllContacts()
+        
+      }else{
+        checkboxRef.current.checked = false
+        setRecepients('')
+        setCol([])
+        setRow([])
+
+      }
+
+      
+
+
+
+      
+
+  }
+
+  
 
   const charactersLeft = 160-count
   let contactCount = recipients.split(',');
@@ -77,7 +109,7 @@ const DbUpload =  () => {
     }
    axios({
      method:'post',
-     url:"http://localhost:3001/naivas/api/smsbulk",
+     url:"http://192.168.100.51:3008/naivas/api/smsbulk",
      data: formData,
    })
    .then(resp=>{
@@ -105,7 +137,7 @@ const dataFromForm ={
 const data = JSON.stringify(dataFromForm)
 axios({
   method:"post",
-  url:'http://localhost:3001/naivas/api/log',
+  url:'http://192.168.100.51:3008/naivas/api/log',
   data,
   headers: {
     "Content-Type": "application/json"
@@ -115,7 +147,7 @@ axios({
 })
 .then(res=>{
   
-  alert(res.data)
+  console.log(res.data)
 
 })
 .catch(err =>{
@@ -160,15 +192,19 @@ axios({
   </Card>
 
 <Form onSubmit={SubmitForm} className='mt-5'>
+
+<Form.Check ref={checkboxRef}  aria-label="option 1" className='mb-3' label="Select all contacts"  onChange={HandleChangeCheck}/>
+
+
         <Dropdown as={ButtonGroup} className='mt-5' className='mb-5'onSelect={HandleSelect}  onClick={HandleClick}>
-        <Button variant="secondary">Select Branch</Button>
+        <Button variant="secondary">{label}</Button>
       
         <Dropdown.Toggle split variant="secondary" id="dropdown-split-basic" />
         
         
         <Dropdown.Menu >
             {branch.map(i =>(
-                <Dropdown.Item key={i.ID} eventKey={i["Store ID"]}> {i["Branch name"]}</Dropdown.Item>
+                <Dropdown.Item key={i.ID} eventKey={[i["ints"],i["Name"]]} value={label} > {i["Name"]}</Dropdown.Item>
  
               ))}
           
